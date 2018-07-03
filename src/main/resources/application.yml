@@ -1,0 +1,33 @@
+#设置项目的名称和端口
+server:
+  port: 8080
+  servlet:
+    context-path: /attnms
+
+#设置当前项目日志的输出级别
+logging:
+  level:
+    com:
+      newedu: debug
+  #当前磁盘根目录下的spring文件夹创建日志文件目录，使用默认的日志文件名
+  path: /springboot/log
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/attnms?useSSL=false
+    username: root
+    password: 123456
+    hikari:
+      pool-name: attnms-db-pool
+      max-lifetime: 1800000
+      connection-timeout: 30000
+      connection-test-query: SELECT 1
+  thymeleaf:
+    cache: false
+  messages:
+    basename: i18n.login
+
+
+mybatis:
+  mapper-locations: classpath:mapping/*.xml
+  type-aliases-package: com.newedu.attnms.entity
+
