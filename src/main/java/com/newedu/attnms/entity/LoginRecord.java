@@ -16,7 +16,7 @@ public class LoginRecord {
     private String locked;
     @NotNull
     private int times;
-    private String date;
+    private String logindate;
     public LoginRecord(){
 
     }

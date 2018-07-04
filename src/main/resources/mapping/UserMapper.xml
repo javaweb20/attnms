@@ -11,8 +11,9 @@
             <if test="username != null">
                 username=#{username}
             </if>
-            <if test="password != null">
-                password=#{password}
+
+            <if test="pwd != null">
+               and  pwd=#{pwd}
             </if>
         </where>
     </select>

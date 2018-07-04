@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newedu.attnms.dao.EmployeeDao">
+
+    <select id="selectOne" parameterType="java.lang.Integer"
+            resultType="employee"
+            >
+        SELECT * FROM  tbl_employees
+        <where>
+            <if test="_parameter != null">
+                empno = #{empno}
+            </if>
+        </where>
+    </select>
+    <select id="getEmpWith" parameterType="employee"
+            resultType="employee"
+    >
+        SELECT * FROM  tbl_employees
+        <!--<where>-->
+            <!--<if test="ename != null">-->
+                <!--ename = #{ename}-->
+            <!--</if>-->
+            <!--<if test="job != null">-->
+               <!--and job = #{job}-->
+            <!--</if>-->
+
+            <!--<if test="deptno != 0">-->
+                <!--and deptno = #{deptno}-->
+            <!--</if>-->
+        <!--</where>-->
+        /*将 where 节点，修改为trim节点*/
+        /*自动添加where ，自动删除 and 或者or*/
+        <trim prefix="WHERE" prefixOverrides="and|or" >
+            <if test="ename != null">
+            ename = #{ename}
+            </if>
+            <if test="job != null">
+            and job = #{job}
+            </if>
+
+        </trim>
+    </select>
+    <insert id="insert" parameterType="employee"
+         >
+        INSERT into tbl_employees (empno,ename,job,mgr,hiredate,sal,bonus,deptno,deptname)
+        VALUES (#{empno},#{ename},#{job},#{mgr},#{hiredate},#{sal},#{bonus},#{deptno},#{deptname})
+    </insert>
+
+
+    <update id="update" parameterType="employee" >
+        UPDATE tbl_employees
+        <set>
+            /*_parameter 指代的是用户输入的参数*/
+            <if test="ename != null">
+                ename = #{ename},
+            </if>
+            <if test="job != null">
+                job = #{job},
+            </if>
+            <if test="mgr != 0">
+                mgr = #{mgr},
+            </if>
+            <if test="hiredate != null">
+                hiredate = #{hiredate},
+            </if>
+            <if test="sal != null">
+                sal = #{sal},
+            </if>
+            <if test="bonus != null">
+                bonus = #{bonus},
+            </if>
+            <if test="deptno != 0">
+                deptno = #{deptno}
+            </if>
+        </set>
+        where empno = #{empno}
+    </update>
+
+    <select id="selectAll" resultType="employee">
+        SELECT * from tbl_employees;
+    </select>
+    <delete id="delete" parameterType="java.lang.Integer" >
+        DELETE FROM  tbl_employees
+        where empno = #{empno}
+    </delete>
+    <delete id="deleteEmpArray" parameterType="map"  >
+        DELETE FROM  tbl_employees
+        where deptno = #{deptno} and empno IN
+       <foreach collection="array" item="item" index="index" open="(" separator="," close=")">
+           #{item}
+       </foreach>
+    </delete>
+
+    
+
+    <!--sql代码片段-->
+    <sql id="empColumns" >
+        <trim suffixOverrides=",">
+            <if test="empno != null">
+                empno,
+            </if>
+            <if test="ename !=null">
+                ename,
+            </if>
+            <if test="job !=null">
+                job,
+            </if>
+            <if test="mgr gt 0 ">
+                mgr,
+            </if>
+            <if test="hiredate !=null">
+                hiredate,
+            </if>
+            <if test="sal gt 0">
+                sal,
+            </if>
+            <if test="bonus gte 0">
+                bonus,
+            </if>
+            <if test="deptno gt 0">
+                deptno,
+            </if>
+            <if test="deptname != null">
+                deptname,
+            </if>
+        </trim>
+    </sql>
+    <!--sql代码片段-->
+    <sql id="empValues" >
+        <trim suffixOverrides=",">
+            <if test="empno !=null">
+                #{empno},
+            </if>
+            <if test="ename !=null">
+                #{ename},
+            </if>
+            <if test="job !=null">
+                #{job},
+            </if>
+            <if test="mgr gt 0 ">
+                #{mgr},
+            </if>
+            <if test="hiredate !=null">
+                #{hiredate},
+            </if>
+            <if test="sal gt 0">
+                #{sal},
+            </if>
+            <if test="bonus gte 0">
+                #{bonus},
+            </if>
+            <if test="deptno gt 0">
+                #{deptno},
+            </if>
+            <if test="deptname !=null">
+                #{deptname},
+            </if>
+        </trim>
+    </sql>
+
+    <!--使用sql代码片段来插入数据-->
+    <insert id="insertEmp2"
+            parameterType="employee"
+            >
+        /*refid = reference id*/
+
+        INSERT  into tbl_employees (<include refid="empColumns"/> )
+        VALUES (<include refid="empValues"/>)
+    </insert>
+
+
+    <!--模糊查询-->
+
+    <select id="getEmpLikeByName"
+            parameterType="string"
+            resultType="employee">
+        select * from tbl_employees
+        <if test="_parameter!=null">
+            where ename like  '%${_parameter}%'
+        </if>;
+    </select>
+</mapper>

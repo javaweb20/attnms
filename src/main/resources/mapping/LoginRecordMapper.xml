@@ -12,8 +12,8 @@
             resultType="loginRecord">
         SELECT * FROM  tbl_login_records
         <where>
-            <if test="username != null">
-                username=#{username}
+            <if test="_parameter != null">
+                username=#{username} and
             </if>
             DATE_FORMAT(logindate, '%Y%m' )
             = DATE_FORMAT( CURDATE( ) , '%Y%m' )
@@ -24,7 +24,7 @@
             resultType="loginRecord">
         SELECT * FROM  tbl_login_records
         <where>
-            <if test="_paramter != null">
+            <if test="_parameter != null">
                 username=#{username}
             </if>
             times = 2;
@@ -37,7 +37,7 @@
     >
         SELECT COUNT(*) num FROM tbl_login_records
         <where>
-            <if test="_paramter != null">
+            <if test="_parameter != null">
                 username=#{username}
             </if>
         </where>
@@ -46,7 +46,7 @@
    <delete id="delete" parameterType="string" >
        DELETE FROM tbl_login_records
        <where>
-           <if test="_paramter != null">
+           <if test="_parameter != null">
                username=#{username}
            </if>
        </where>

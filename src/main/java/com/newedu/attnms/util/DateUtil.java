@@ -12,7 +12,7 @@ public class DateUtil {
      * @throws Exception
      */
     public static boolean gt5MinusOf(String date) throws Exception{
-        SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd HH:mm:ss");
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         Date date1=sdf.parse(date);
         Date now=sdf.parse(sdf.format(new Date()));
