@@ -77,10 +77,16 @@
         </set>
         where empno = #{empno}
     </update>
+    <resultMap id="empResultMap" type="employee">
 
-    <select id="selectAll" resultType="employee">
-        SELECT * from tbl_employees;
+        <association property="department"
+                     column="deptno" select="com.newedu.attnms.dao.DepartmentDao.selectOne"  >
+        </association>
+    </resultMap>
+    <select id="selectAll" resultMap="empResultMap">
+        SELECT * from tbl_employees
     </select>
+
     <delete id="delete" parameterType="java.lang.Integer" >
         DELETE FROM  tbl_employees
         where empno = #{empno}

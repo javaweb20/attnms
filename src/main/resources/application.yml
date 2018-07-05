@@ -1,6 +1,6 @@
 #设置项目的名称和端口
 server:
-  port: 8080
+  port: 8090
   servlet:
     context-path: /attnms
 
@@ -34,3 +34,10 @@ mybatis:
   mapper-locations: classpath:mapping/*.xml
   type-aliases-package: com.newedu.attnms.entity
 
+
+#pagehelper
+pagehelper:
+  helperDialect: mysql
+  params: count=countSql
+  reasonable: true
+  support-methods-arguments: true

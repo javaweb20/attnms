@@ -36,7 +36,7 @@
         SELECT * FROM  tbl_departments
         <where>
             <if test="_parameter != null">
-                empno = #{empno}
+                deptno = #{deptno}
             </if>
         </where>
     </select>
